@@ -1,8 +1,9 @@
 import secrets
 import string
+import os
 
 
-def generate_password(length: int = 15, special_characters: bool = False) -> None:
+def generate_password(length: int = 15, special_characters: bool = False) -> str:
     """
     Função geradora de senha forte
 
@@ -15,8 +16,36 @@ def generate_password(length: int = 15, special_characters: bool = False) -> Non
         else string.ascii_letters + string.digits
 
     password = ''.join(secrets.choice(alphabet) for i in range(length))
-    print(password)
+
+    return password
+
+
+def save_password(password: str) -> None:
+    """
+    Salva a senha gerada num arquivo txt
+
+    :param password: Senha gerada
+    """
+
+    filename = 'passwords.txt'
+
+    if not os.path.exists(filename):
+        with open(filename, 'w') as arq:
+            pass
+
+    with open(filename, 'r+') as arq:
+        passwords_created = [row.split('\n')[0] for row in arq.readlines()]
+        if len(passwords_created) == 0:
+            arq.write(f'{password}\n')
+        else:
+            for password_created in passwords_created:
+                if password_created == password:
+                    pass
+                else:
+                    arq.write(f'{password}\n')
+                    break
 
 
 if __name__ == '__main__':
-    generate_password(25, True)
+    password = generate_password(35, True)
+    save_password(password)
