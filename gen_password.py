@@ -43,9 +43,10 @@ def save_password(password: str) -> None:
                     pass
                 else:
                     arq.write(f'{password}\n')
+                    print(password)
                     break
 
 
 if __name__ == '__main__':
-    password = generate_password(35, True)
+    password = generate_password(30, True)
     save_password(password)
