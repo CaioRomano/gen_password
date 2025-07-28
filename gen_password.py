@@ -36,17 +36,16 @@ def save_password(password: str) -> None:
     with open(filename, 'r+') as arq:
         passwords_created = [row.split('\n')[0] for row in arq.readlines()]
         if len(passwords_created) == 0:
+            print(f'Primeira senha: {password}\n')
             arq.write(f'{password}\n')
         else:
-            for password_created in passwords_created:
-                if password_created == password:
-                    pass
-                else:
-                    arq.write(f'{password}\n')
-                    print(password)
-                    break
+            if password in passwords_created:
+                print('Senha já existe!')
+            else:
+                arq.write(f'{password}\n')
+                print(password)
 
 
 if __name__ == '__main__':
-    password = generate_password(30, True)
+    password = generate_password(45, False)
     save_password(password)
